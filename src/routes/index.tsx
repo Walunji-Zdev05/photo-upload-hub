@@ -6,6 +6,7 @@ import { useTheme } from "@/hooks/use-theme";
 import { IMG, GALLERY, type Shot } from "@/components/site/images";
 import { BinaryRain } from "@/components/site/BinaryRain";
 import { Gallery } from "@/components/site/Gallery";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -102,15 +103,17 @@ function ThemeToggle() {
         : "Choose light or dark mode";
 
   return (
-    <button
+    <Button
       type="button"
+      variant="outline"
+      size="icon"
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="ml-auto flex shrink-0 items-center border border-border bg-card p-1.5 text-muted-foreground hover:border-primary hover:text-primary"
+      className="ml-auto min-h-11 min-w-11 shrink-0 rounded-sm bg-card text-foreground hover:border-primary hover:bg-secondary hover:text-primary"
     >
       {theme === "dark" ? <Sun className="h-4 w-4" /> : theme === "light" ? <Moon className="h-4 w-4" /> : <Contrast className="h-4 w-4" />}
-    </button>
+    </Button>
   );
 }
 
@@ -121,16 +124,16 @@ function Index() {
       <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3">
           <a href="#home" className="shrink-0 font-display text-xl font-bold"><span className="text-primary">0x</span>DEFEND</a>
-          <ul className="flex gap-2.5 overflow-x-auto whitespace-nowrap text-sm text-muted-foreground [scrollbar-width:none]">
+          <ul className="-m-1 flex min-w-0 flex-1 gap-1.5 overflow-x-auto whitespace-nowrap p-1 text-sm text-muted-foreground [scrollbar-width:none]">
             {NAV.slice(1).map(([id, label]) => (
-              <li key={id}><a href={`#${id}`} className="hover:text-primary">{label}</a></li>
+              <li key={id}><a href={`#${id}`} className="block px-1 py-2 hover:text-primary focus-visible:text-primary">{label}</a></li>
             ))}
           </ul>
           <ThemeToggle />
         </nav>
       </header>
 
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <section id="home" className="relative overflow-hidden px-5 pb-20 pt-16">
           <BinaryRain />
           <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
@@ -280,7 +283,7 @@ function Index() {
           ) : (
             <div className="frame-corners relative max-w-4xl border border-border">
               <img src={IMG.mainMenu.src} alt="" loading="lazy" className="aspect-video w-full object-cover opacity-40" />
-              <p className="absolute inset-0 flex items-center justify-center gap-2 font-display text-xl"><Play className="h-6 w-6 text-primary" /> Gameplay video coming soon</p>
+              <p className="absolute inset-0 flex items-center justify-center px-4 text-center font-display text-xl"><span className="inline-flex items-center gap-2 bg-background px-4 py-3 text-foreground"><Play className="h-6 w-6 shrink-0 text-primary" /> Gameplay video coming soon</span></p>
             </div>
           )}
         </Section>
