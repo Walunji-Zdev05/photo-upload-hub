@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Download/video/contact links live in src/lib/site-config.ts CONFIG; empty value renders "coming soon" (team edits one place).
+- Site is a single page (src/routes/index.tsx) per requirements v3; colour scheme follows prefers-color-scheme, not a .dark class.
