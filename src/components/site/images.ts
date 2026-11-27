@@ -46,6 +46,5 @@ export const IMG = {
 };
 
 export const GALLERY: Shot[] = [
-  IMG.mainMenu, IMG.multiplayer, IMG.lobby, IMG.coreWall, IMG.gameOver, IMG.ship,
-  IMG.collectingScrap, IMG.wallClimb, IMG.gravityFall, IMG.glitch,
+  IMG.mainMenu, IMG.multiplayer, IMG.lobby, IMG.gameOver, IMG.glitch,
 ];

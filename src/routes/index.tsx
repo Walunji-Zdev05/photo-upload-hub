@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Contrast, Download, Mail, Monitor, Moon, Play, Smartphone, Sun } from "lucide-react";
+import { Compass, Crosshair, Download, Files, Mail, Monitor, Play, ShieldPlus, Smartphone, Wrench } from "lucide-react";
 import { CONFIG } from "@/lib/site-config";
-import { useTheme } from "@/hooks/use-theme";
 import { IMG, GALLERY, type Shot } from "@/components/site/images";
 import { BinaryRain } from "@/components/site/BinaryRain";
 import { Gallery } from "@/components/site/Gallery";
 import { Button } from "@/components/ui/button";
+import { SiteHeader } from "@/components/site/SiteHeader";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,15 +22,9 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NAV = [
-  ["home", "Home"], ["how-to-play", "How to play"], ["scrap", "Collect scrap"], ["player", "Meet the player"],
-  ["enemies", "Meet the enemies"], ["explore", "Explore the game"], ["levels", "Levels and hazards"],
-  ["video", "Video"], ["gallery", "Gallery"], ["team", "The team"], ["download", "Download"],
-] as const;
-
 function Section({ id, kicker, title, children, alt }: { id: string; kicker: string; title: string; children: ReactNode; alt?: boolean }) {
   return (
-    <section id={id} className={`scroll-mt-20 px-5 py-20 ${alt ? "bg-muted/40" : ""}`}>
+    <section id={id} tabIndex={-1} className={`scroll-mt-20 px-5 py-12 md:py-16 ${alt ? "bg-muted/40" : ""}`}>
       <div className="mx-auto max-w-6xl">
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{kicker}</p>
         <h2 className="mt-2 font-display text-3xl font-bold text-primary md:text-4xl">{title}</h2>
@@ -58,24 +52,26 @@ function DownloadCard({ icon, platform, url, version, sha }: { icon: ReactNode; 
       </div>
       {url ? (
         <>
-          <a href={url} className="mt-4 inline-flex items-center gap-2 bg-primary px-4 py-2 font-semibold text-primary-foreground hover:bg-primary/90">
+          <Button asChild className="mt-4 h-auto min-h-11 whitespace-normal rounded-sm">
+          <a href={url}>
             <Download className="h-4 w-4" /> Download for {platform}{version ? ` · v${version}` : ""}
           </a>
+          </Button>
           {sha && <p className="mt-2 break-all font-mono text-xs text-muted-foreground">SHA-256: {sha}</p>}
         </>
       ) : (
-        <p className="mt-4 inline-block border border-dashed border-border px-4 py-2 font-mono text-sm text-muted-foreground">{platform} download coming soon</p>
+        <p className="mt-3 text-sm text-muted-foreground">Download coming soon</p>
       )}
     </div>
   );
 }
 
 const LOOP = [
-  ["01", "Explore", "Travel from the Base on the ship and drop into the CPU level.", IMG.ship],
-  ["02", "Collect", "Find glowing green scrap files. Press E to pick one up.", IMG.collectingScrap],
-  ["03", "Fight", "Hold right click to aim and left click to shoot malware.", IMG.worms],
-  ["04", "Defend", "When the alert sounds, secure the Core Wall before it falls.", IMG.underAttack],
-  ["05", "Upgrade", "Spend scrap to reinforce the Core Wall between waves.", IMG.coreWall],
+  ["01", "Explore", "Board the ship and jump from the Base into the CPU.", Compass],
+  ["02", "Collect", "Find glowing green scrap. Press E to pick it up.", Files],
+  ["03", "Fight", "Hold right click to aim. Left click fires your blaster.", Crosshair],
+  ["04", "Defend", "When the alert sounds, get back to the Core Wall.", ShieldPlus],
+  ["05", "Upgrade", "Spend your scrap to strengthen the wall. Face the next wave.", Wrench],
 ] as const;
 
 const ENEMIES = [
@@ -86,89 +82,49 @@ const ENEMIES = [
 ] as const;
 
 const TEAM = [
-  ["Walunji Kumwenda", "Project Leader", "Level design, physics and gravity, Base and CPU layouts, scrap drop physics, extraction zone, Core Wall upgrade logic, enemy AI"],
-  ["Kondwani Padyera", "Project Manager", "Multiplayer and networking, combat, wave and aiming systems, optimisation"],
-  ["Miriam Phiri", "Role to be confirmed", "HUD, menus and lobby, hazards and level dressing, tutorial, sound effects and music, visual effects"],
-  ["Rosemary Nyirenda", "Role to be confirmed", "Android and Windows platform layer and shared controls, splash, boot, game-over and upgrade screens, spectator mode"],
-  ["Paul Kabondo", "Role to be confirmed", "3D enemy, scrap and player models, animations, player movement, Data Miner AI, combat testing"],
+  ["Walunji Kumwenda", "Project Leader", "Built the Base and CPU layouts, custom gravity, scrap drop physics, extraction zone, Core Wall upgrades and enemy AI."],
+  ["Kondwani Padyera", "Project Manager", "Built multiplayer, networking, combat, wave and aiming systems. Leads game optimisation."],
+  ["Miriam Phiri", "Role to be confirmed", "Created the HUD, menus and lobby, tutorial, hazards and level dressing, sound, music and visual effects."],
+  ["Rosemary Nyirenda", "Role to be confirmed", "Worked on Windows and Android support, shared controls, game screens and spectator mode."],
+  ["Paul Kabondo", "Role to be confirmed", "Created 3D models and animations, player movement and Data Miner AI. Tested combat."],
 ] as const;
-
-function ThemeToggle() {
-  const { theme, toggle } = useTheme();
-  const label =
-    theme === "dark"
-      ? "Switch to light mode"
-      : theme === "light"
-        ? "Switch to dark mode"
-        : "Choose light or dark mode";
-
-  return (
-    <Button
-      type="button"
-      variant="outline"
-      size="icon"
-      onClick={toggle}
-      aria-label={label}
-      title={label}
-      className="ml-auto min-h-11 min-w-11 shrink-0 rounded-sm bg-card text-foreground hover:border-primary hover:bg-secondary hover:text-primary"
-    >
-      {theme === "dark" ? <Sun className="h-4 w-4" /> : theme === "light" ? <Moon className="h-4 w-4" /> : <Contrast className="h-4 w-4" />}
-    </Button>
-  );
-}
 
 function Index() {
   return (
     <div className="min-h-screen">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">Skip to content</a>
-      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-        <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3">
-          <a href="#home" className="shrink-0 font-display text-xl font-bold"><span className="text-primary">0x</span>DEFEND</a>
-          <ul className="-m-1 flex min-w-0 flex-1 gap-1.5 overflow-x-auto whitespace-nowrap p-1 text-sm text-muted-foreground [scrollbar-width:none]">
-            {NAV.slice(1).map(([id, label]) => (
-              <li key={id}><a href={`#${id}`} className="block px-1 py-2 hover:text-primary focus-visible:text-primary">{label}</a></li>
-            ))}
-          </ul>
-          <ThemeToggle />
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main id="main" tabIndex={-1}>
-        <section id="home" className="relative overflow-hidden px-5 pb-20 pt-16">
+        <section id="home" tabIndex={-1} className="relative scroll-mt-20 overflow-hidden px-5 pb-10 pt-8 md:pb-14 md:pt-12">
           <BinaryRain />
-          <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
+          <div className="relative mx-auto max-w-6xl">
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">System nominal · Threat level rising</p>
-              <h1 className="mt-3 font-display text-6xl font-bold md:text-7xl"><span className="text-primary">0x</span>DEFEND</h1>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">Antivirus system active</p>
+              <h1 className="mt-3 font-display text-5xl font-bold md:text-7xl"><span className="text-primary">0x</span>DEFEND</h1>
               <p className="mt-2 font-display text-xl text-warning">Protect. Collect. Survive.</p>
-              <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-                A co-op 3D action-adventure platformer. You are an antivirus hero inside a computer: team up with up to 3 friends, collect scrap, fight malware and protect the Core Wall.
+              <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
+                Jump into a computer under attack. Collect scrap, blast malware and protect the Core Wall—alone or with friends.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                {[["Windows", CONFIG.windowsUrl, Monitor], ["Android", CONFIG.apkUrl, Smartphone]].map(([p, url, Icon]) => {
-                  const I = Icon as typeof Monitor;
-                  return url ? (
-                    <a key={p as string} href={url as string} className="inline-flex items-center gap-2 bg-primary px-5 py-3 font-semibold text-primary-foreground hover:bg-primary/90"><I className="h-5 w-5" /> Download for {p as string}</a>
-                  ) : (
-                    <a key={p as string} href="#download" className="inline-flex items-center gap-2 border border-primary px-5 py-3 font-semibold text-primary hover:bg-primary/10"><I className="h-5 w-5" /> {p as string} · coming soon</a>
-                  );
-                })}
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Button asChild size="lg" className="min-h-11 rounded-sm"><a href="#how-to-play"><Compass /> Explore the game</a></Button>
+                {(CONFIG.windowsUrl || CONFIG.apkUrl) && <Button asChild variant="outline" size="lg" className="min-h-11 rounded-sm"><a href="#download"><Download /> Download</a></Button>}
               </div>
-              <p className="mt-6 text-sm text-muted-foreground">An ongoing ICT academic project by a student team at the University of Malawi (UNIMA). The game may change as development continues.</p>
+              <p className="mt-4 font-mono text-xs text-muted-foreground">3D co-op platformer · Windows & Android · In development</p>
             </div>
-            <figure className="frame-corners border border-primary bg-card">
-              <img src={IMG.baseLevel.src} alt={IMG.baseLevel.alt} fetchPriority="high" className="aspect-video w-full object-cover" />
+            <figure className="frame-corners mt-7 border border-primary bg-card">
+              <img src={IMG.baseLevel.src} alt={IMG.baseLevel.alt} fetchPriority="high" className="max-h-[48svh] w-full object-contain" />
             </figure>
           </div>
         </section>
 
         <Section id="how-to-play" kicker="The play loop" title="How to play" alt>
-          <ol className="grid gap-5 md:grid-cols-5">
-            {LOOP.map(([n, t, d, img]) => (
-              <li key={t} className="border border-border bg-card">
-                <img src={img.src} alt={img.alt} loading="lazy" className="aspect-video w-full object-cover" />
-                <div className="p-4">
-                  <span className="font-mono text-sm text-warning">{n}</span>
+          <p className="mb-6 text-muted-foreground">Five steps. One Core Wall to keep alive.</p>
+          <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {LOOP.map(([n, t, d, Icon]) => (
+              <li key={t} className="border-t border-border pt-4">
+                <div className="mb-4 flex items-center justify-between"><span className="font-mono text-sm text-accent">{n}</span><Icon className="h-6 w-6 text-primary" aria-hidden="true" /></div>
+                <div>
                   <h3 className="font-display text-lg font-bold text-warning">{t}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{d}</p>
                 </div>
@@ -180,17 +136,17 @@ function Index() {
         <Section id="scrap" kicker="Collect and defend" title="Collect scrap">
           <div className="grid gap-8 lg:grid-cols-2">
             <div className="space-y-4 text-muted-foreground">
-              <p>Scrap is glowing green files scattered across the CPU level. It comes in Standard, High-Value and Rare types.</p>
+              <p>Scrap keeps the Core Wall alive. Look for glowing green files on the circuits, carry them home and spend them wisely.</p>
+              <p className="text-sm">Find Standard, High-Value and Rare scrap as you explore.</p>
               <ul className="space-y-3 font-mono text-sm">
                 <li><kbd className="border border-primary px-2 text-primary">E</kbd> Pick up scrap. You can carry up to 4.</li>
                 <li><kbd className="border border-primary px-2 text-primary">G</kbd> Deposit your scrap on the ship platform.</li>
                 <li><span className="text-warning">1,500</span> scrap reinforces the Core Wall in the first wave.</li>
               </ul>
-              <p>Use the upgrade menu to spend scrap on the Core Wall's health. Waves get harder over time, so keep the scrap coming.</p>
+              <p>Each wave is harder than the last. Strengthen the Core Wall before the next one arrives.</p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4">
               <Fig shot={IMG.collectingScrap} />
-              <Fig shot={IMG.shipTutorial} />
             </div>
           </div>
         </Section>
@@ -199,7 +155,7 @@ function Index() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Fig shot={IMG.ship} />
             <div className="space-y-4 text-muted-foreground">
-              <p>You play a white antivirus robot armed with a blaster, sent from the Base into the computer's CPU to stop the infection.</p>
+              <p>You are the antivirus hero: a white robot with a blaster and a computer to save. Head from the Base into the CPU and stop the infection.</p>
               <dl className="grid grid-cols-3 gap-3 font-mono">
                 {[["Health", "500"], ["Stamina", "100"], ["Scrap slots", "4"]].map(([k, v]) => (
                   <div key={k} className="border border-border bg-card p-3">
@@ -208,7 +164,7 @@ function Index() {
                   </div>
                 ))}
               </dl>
-              <p>Your HUD shows health, stamina, the current wave and a mission timer. If you fall, spectator mode follows your living teammates.</p>
+              <p>Keep an eye on your health, stamina, wave number and mission timer. If you fall, watch your surviving teammates in spectator mode.</p>
               <Fig shot={IMG.hud} />
             </div>
           </div>
@@ -236,17 +192,18 @@ function Index() {
         <Section id="explore" kicker="Multiplayer" title="Explore the game" alt>
           <div className="grid gap-8 lg:grid-cols-2">
             <div className="space-y-4 text-muted-foreground">
-              <p>Play together with up to 4 players. One player hosts, and the others join with an IP address or session code, or find the game with a LAN scan.</p>
+              <p>Bring a team of up to four. One player hosts; the others join by IP address, session code or a LAN scan.</p>
               <ul className="list-disc space-y-1 pl-5 text-sm">
                 <li>Windows: multiplayer over a local network.</li>
                 <li>Android: multiplayer is not available yet.</li>
                 <li>Online play over the internet is not supported.</li>
               </ul>
-              <Fig shot={IMG.lobby} />
+              <p className="pt-3 font-display text-xl text-warning">Gravity has other plans.</p>
+              <p>Walk along walls and across circuit boards. In the CPU, down is not always where you expect.</p>
+              <Fig shot={IMG.coreWall} />
             </div>
             <div className="grid gap-4">
               <Fig shot={IMG.gravityFall} />
-              <Fig shot={IMG.coreWall} />
             </div>
           </div>
         </Section>
@@ -260,17 +217,18 @@ function Index() {
               </div>
             ))}
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <Fig shot={IMG.wallClimb} />
-            <Fig shot={IMG.wallSide} />
             <Fig shot={IMG.hazardZone} />
           </div>
-          <p className="mt-6 text-muted-foreground"><span className="font-mono text-warning">HAZARD</span> zones are marked on the CPU floor. Exact effects will be described soon.</p>
-          <h3 className="mt-10 font-display text-xl font-bold">Behind the scenes</h3>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <p className="mt-6 text-muted-foreground">Look in every direction: the CPU stacks circuit boards above and below you. <span className="font-mono text-warning">HAZARD</span> zones mark the floor; exact effects are still to be confirmed.</p>
+          <details className="mt-8 border-t border-border pt-4">
+          <summary className="w-fit cursor-pointer font-display text-xl font-bold text-primary">Behind the scenes</summary>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <Fig shot={IMG.editorCpu} />
             <Fig shot={IMG.editorWalls} />
           </div>
+          </details>
         </Section>
 
         <Section id="video" kicker="Watch" title="Gameplay video" alt>
@@ -281,9 +239,9 @@ function Index() {
               <a href={CONFIG.videoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary px-5 py-3 font-semibold text-primary-foreground"><Play className="h-5 w-5" /> Watch the gameplay video</a>
             )
           ) : (
-            <div className="frame-corners relative max-w-4xl border border-border">
-              <img src={IMG.mainMenu.src} alt="" loading="lazy" className="aspect-video w-full object-cover opacity-40" />
-              <p className="absolute inset-0 flex items-center justify-center px-4 text-center font-display text-xl"><span className="inline-flex items-center gap-2 bg-background px-4 py-3 text-foreground"><Play className="h-6 w-6 shrink-0 text-primary" /> Gameplay video coming soon</span></p>
+            <div className="flex items-start gap-4 border-l-2 border-primary pl-5">
+              <Play className="mt-1 h-7 w-7 shrink-0 text-primary" aria-hidden="true" />
+              <div><p className="font-display text-xl">Gameplay video coming soon</p><p className="mt-2 text-sm text-muted-foreground">For now, take a look inside the game in the gallery.</p></div>
             </div>
           )}
         </Section>
@@ -293,6 +251,7 @@ function Index() {
         </Section>
 
         <Section id="team" kicker="The MetaSploitables (proposed name)" title="The team" alt>
+          <p className="mb-6 max-w-2xl text-muted-foreground">Built by a student team at the University of Malawi. 0xDEFEND is an ongoing ICT academic project, with more improvements to come.</p>
           <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {TEAM.map(([n, r, c]) => (
               <li key={n} className="frame-corners border border-border bg-card p-5">

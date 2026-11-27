@@ -8,7 +8,7 @@ export function Gallery({ shots }: { shots: Shot[] }) {
   const opener = useRef<HTMLButtonElement | null>(null);
   return (
     <>
-      <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-5 lg:grid-cols-3">
         {shots.map((s) => (
           <li key={s.src}>
             <Button

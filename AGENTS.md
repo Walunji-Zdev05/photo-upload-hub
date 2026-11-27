@@ -32,3 +32,4 @@ use the editor.
 - Download/video/contact links live in src/lib/site-config.ts CONFIG; empty value renders "coming soon" (team edits one place).
 - Site is a single page (src/routes/index.tsx) per requirements v3; colour scheme follows prefers-color-scheme unless the visitor picks a mode, which is remembered in localStorage and applied as <html data-theme="light|dark"> — never a .dark class.
 - Keep keyboard-focus outlines in the unlayered global stylesheet with a surface-colored gap so component utilities and screenshot backgrounds cannot hide them.
+- Keep section navigation in SiteHeader with a Radix sheet below the full-menu breakpoint; focus the selected section when it closes so keyboard users continue at their destination.
