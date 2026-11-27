@@ -155,8 +155,14 @@
   }
 }
 
-/* ===== 0xDEFEND theme: follows device light/dark setting ===== */
+/* ===== 0xDEFEND theme =====
+ * Default: follows the device's light/dark setting. An explicit choice made with
+ * the header toggle is remembered and written to <html data-theme="light|dark">,
+ * which beats the device setting. The dark palette is written out twice on
+ * purpose (device default + explicit choice); keep both blocks in sync.
+ */
 :root {
+  color-scheme: light dark;
   --background: oklch(0.97 0.01 230);
   --foreground: oklch(0.2 0.05 255);
   --card: oklch(1 0 0);
@@ -177,8 +183,10 @@
   --ring: oklch(0.5 0.12 215);
   --radius: 0.25rem;
 }
+/* Device default: dark, unless the visitor explicitly chose light. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --background: oklch(0.16 0.04 260);
     --foreground: oklch(0.95 0.02 220);
     --card: oklch(0.21 0.05 258);
@@ -198,6 +206,33 @@
     --input: oklch(0.33 0.06 245);
     --ring: oklch(0.83 0.14 205);
   }
+}
+
+/* Explicit choice wins over the device setting. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: oklch(0.16 0.04 260);
+  --foreground: oklch(0.95 0.02 220);
+  --card: oklch(0.21 0.05 258);
+  --card-foreground: oklch(0.95 0.02 220);
+  --popover: oklch(0.21 0.05 258);
+  --popover-foreground: oklch(0.95 0.02 220);
+  --primary: oklch(0.83 0.14 205);
+  --primary-foreground: oklch(0.16 0.04 260);
+  --secondary: oklch(0.26 0.05 258);
+  --secondary-foreground: oklch(0.95 0.02 220);
+  --muted: oklch(0.24 0.04 258);
+  --muted-foreground: oklch(0.75 0.03 230);
+  --accent: oklch(0.86 0.13 165);
+  --accent-foreground: oklch(0.16 0.04 260);
+  --warning: oklch(0.88 0.16 95);
+  --border: oklch(0.33 0.06 245);
+  --input: oklch(0.33 0.06 245);
+  --ring: oklch(0.83 0.14 205);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 @theme inline {
   --color-warning: var(--warning);

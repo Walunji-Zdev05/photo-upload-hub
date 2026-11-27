@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Download, Monitor, Smartphone, Play, Mail } from "lucide-react";
+import { Contrast, Download, Mail, Monitor, Moon, Play, Smartphone, Sun } from "lucide-react";
 import { CONFIG } from "@/lib/site-config";
+import { useTheme } from "@/hooks/use-theme";
 import { IMG, GALLERY, type Shot } from "@/components/site/images";
 import { BinaryRain } from "@/components/site/BinaryRain";
 import { Gallery } from "@/components/site/Gallery";
@@ -91,18 +92,41 @@ const TEAM = [
   ["Paul Kabondo", "Role to be confirmed", "3D enemy, scrap and player models, animations, player movement, Data Miner AI, combat testing"],
 ] as const;
 
+function ThemeToggle() {
+  const { theme, toggle } = useTheme();
+  const label =
+    theme === "dark"
+      ? "Switch to light mode"
+      : theme === "light"
+        ? "Switch to dark mode"
+        : "Choose light or dark mode";
+
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={label}
+      title={label}
+      className="ml-auto flex shrink-0 items-center border border-border bg-card p-1.5 text-muted-foreground hover:border-primary hover:text-primary"
+    >
+      {theme === "dark" ? <Sun className="h-4 w-4" /> : theme === "light" ? <Moon className="h-4 w-4" /> : <Contrast className="h-4 w-4" />}
+    </button>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">Skip to content</a>
       <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-        <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-3">
+        <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3">
           <a href="#home" className="shrink-0 font-display text-xl font-bold"><span className="text-primary">0x</span>DEFEND</a>
-          <ul className="flex gap-4 overflow-x-auto whitespace-nowrap text-sm text-muted-foreground [scrollbar-width:none]">
+          <ul className="flex gap-2.5 overflow-x-auto whitespace-nowrap text-sm text-muted-foreground [scrollbar-width:none]">
             {NAV.slice(1).map(([id, label]) => (
               <li key={id}><a href={`#${id}`} className="hover:text-primary">{label}</a></li>
             ))}
           </ul>
+          <ThemeToggle />
         </nav>
       </header>
 

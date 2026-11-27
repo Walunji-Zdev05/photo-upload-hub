@@ -30,4 +30,4 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Download/video/contact links live in src/lib/site-config.ts CONFIG; empty value renders "coming soon" (team edits one place).
-- Site is a single page (src/routes/index.tsx) per requirements v3; colour scheme follows prefers-color-scheme, not a .dark class.
+- Site is a single page (src/routes/index.tsx) per requirements v3; colour scheme follows prefers-color-scheme unless the visitor picks a mode, which is remembered in localStorage and applied as <html data-theme="light|dark"> — never a .dark class.

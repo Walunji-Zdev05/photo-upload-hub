@@ -113,6 +113,14 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        {/* Apply a remembered colour-mode choice before first paint. The default
+            (no choice stored) is left to the prefers-color-scheme rules. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var t=localStorage.getItem("0xdefend-theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}',
+          }}
+        />
         <HeadContent />
       </head>
       <body>
