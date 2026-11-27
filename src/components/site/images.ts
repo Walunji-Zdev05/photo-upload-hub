@@ -40,7 +40,7 @@ export const IMG = {
   hazardZone: s(hazard_zone, "A glowing yellow HAZARD zone on the CPU level floor with hostile virus markers on screen.", "Hazard zone ahead"),
   worms: s(worms, "Two worms close in on the player on a circuit board.", "Worms closing in"),
   logicBomb: s(logic_bomb, "A Logic Bomb warning marker and a hazard tag on the CPU level.", "Logic Bomb warning"),
-  glitch: s(glitch, "Glitching screen as a Logic Bomb approaches.", "Glitch effect"),
+  glitch: s(glitch, "Screen glitch effect near a Logic Bomb.", "Glitch effect"),
   editorCpu: s(editor_cpu, "The CPU level in the game editor, shown as a wireframe with platforms and coloured zones.", "CPU level in the editor"),
   editorWalls: s(editor_walls, "The level’s walls and platforms seen in the game editor.", "Walls and platforms in the editor"),
 };

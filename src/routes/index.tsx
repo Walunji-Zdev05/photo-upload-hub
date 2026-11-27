@@ -33,7 +33,7 @@ function Section({ id, kicker, title, children, alt }: { id: string; kicker: str
     <section id={id} className={`scroll-mt-20 px-5 py-20 ${alt ? "bg-muted/40" : ""}`}>
       <div className="mx-auto max-w-6xl">
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{kicker}</p>
-        <h2 className="mt-2 font-display text-3xl font-bold md:text-4xl">{title}</h2>
+        <h2 className="mt-2 font-display text-3xl font-bold text-primary md:text-4xl">{title}</h2>
         <div className="mt-8">{children}</div>
       </div>
     </section>
@@ -79,10 +79,10 @@ const LOOP = [
 ] as const;
 
 const ENEMIES = [
-  ["Phishing Spider", "Shows up on your HUD as a warning with its distance, so you can see it coming.", IMG.wallSide],
-  ["Logic Bomb", "Marked with a warning. As it gets close, your screen starts to glitch.", IMG.logicBomb],
-  ["Worm", "Dark worms with red markings that close in on you across the circuit board.", IMG.worms],
-  ["Data Miner", "A fourth kind of malware hunting inside the CPU. More details coming soon.", null],
+  ["Phishing Spider", "Hides among scrap and attacks when you get close to collect it.", IMG.wallSide],
+  ["Logic Bomb", "Waits in place and explodes when you come near.", IMG.logicBomb],
+  ["Worm", "Makes copies of itself, so one worm can become a swarm.", IMG.worms],
+  ["Data Miner", "Runs after you and can steal the scrap you are carrying.", null],
 ] as const;
 
 const TEAM = [
@@ -169,7 +169,7 @@ function Index() {
                 <img src={img.src} alt={img.alt} loading="lazy" className="aspect-video w-full object-cover" />
                 <div className="p-4">
                   <span className="font-mono text-sm text-warning">{n}</span>
-                  <h3 className="font-display text-lg font-bold">{t}</h3>
+                  <h3 className="font-display text-lg font-bold text-warning">{t}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{d}</p>
                 </div>
               </li>
@@ -225,7 +225,7 @@ function Index() {
                 )}
                 <div className="p-4">
                   <p className="font-mono text-xs text-destructive">⚠ Hostile</p>
-                  <h3 className="font-display text-lg font-bold">{name}</h3>
+                  <h3 className="font-display text-lg font-bold text-warning">{name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{d}</p>
                 </div>
               </li>
