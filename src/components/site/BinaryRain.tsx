@@ -34,9 +34,11 @@ export function BinaryRain() {
       canvas.height = Math.max(1, Math.round(h * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const cols = Math.ceil(w / COL_W);
-      const next = Array.from({ length: cols }, (_, i) =>
-        i < drops.length ? drops[i] : Math.random() * -20,
-      );
+      const next: number[] = [];
+      for (let i = 0; i < cols; i++) {
+        const prev = drops[i];
+        next.push(prev === undefined ? Math.random() * -20 : prev);
+      }
       drops = next;
     };
 
@@ -57,6 +59,7 @@ export function BinaryRain() {
 
       for (let i = 0; i < drops.length; i++) {
         const head = drops[i];
+        if (head === undefined) continue;
         for (let k = 0; k < TRAIL; k++) {
           const y = head - k;
           const py = y * ROW_H;
