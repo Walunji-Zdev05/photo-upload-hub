@@ -15,10 +15,10 @@ export function Gallery({ shots }: { shots: Shot[] }) {
               type="button"
               variant="ghost"
               onClick={(event) => { opener.current = event.currentTarget; setOpen(s); }}
-              className="group block h-auto w-full overflow-hidden whitespace-normal rounded-none border border-input bg-card p-0 text-left transition-colors hover:border-primary hover:bg-card"
+              className="group block h-auto w-full overflow-hidden whitespace-normal rounded-none border border-input bg-card p-0 text-left transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-primary hover:bg-card motion-reduce:transition-none"
               aria-label={`Open larger: ${s.caption}`}
             >
-              <img src={s.src} alt={s.alt} loading="lazy" className="aspect-video w-full object-cover transition-transform group-hover:scale-105 motion-reduce:transition-none" />
+              <img src={s.src} alt={s.alt} loading="lazy" className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none" />
               <span className="block px-3 py-2 font-mono text-xs text-muted-foreground">{s.caption}</span>
             </Button>
           </li>

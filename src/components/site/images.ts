@@ -14,8 +14,8 @@ import wall_side from "@/assets/game/wall_side.jpg.asset.json";
 import gravity_fall from "@/assets/game/gravity_fall.jpg.asset.json";
 import hazard_zone from "@/assets/game/hazard_zone.jpg.asset.json";
 import worms from "@/assets/game/worms.jpg.asset.json";
-import logic_bomb from "@/assets/game/logic_bomb.jpg.asset.json";
-import glitch from "@/assets/game/glitch.jpg.asset.json";
+import data_miner from "@/assets/game/logic_bomb.jpg.asset.json";
+import phishing_spider from "@/assets/game/glitch.jpg.asset.json";
 import editor_cpu from "@/assets/game/editor_cpu.jpg.asset.json";
 import editor_walls from "@/assets/game/editor_walls.jpg.asset.json";
 
@@ -39,12 +39,12 @@ export const IMG = {
   gravityFall: s(gravity_fall, "Player falling along the side of a circuit board.", "Custom gravity"),
   hazardZone: s(hazard_zone, "A glowing yellow HAZARD zone on the CPU level floor with hostile virus markers on screen.", "Hazard zone ahead"),
   worms: s(worms, "Two worms close in on the player on a circuit board.", "Worms closing in"),
-  logicBomb: s(logic_bomb, "A Logic Bomb warning marker and a hazard tag on the CPU level.", "Logic Bomb warning"),
-  glitch: s(glitch, "Screen glitch effect near a Logic Bomb.", "Glitch effect"),
+  dataMiner: s(data_miner, "A Data Miner enemy on the CPU level.", "Data Miner"),
+  phishingSpider: s(phishing_spider, "A Phishing Spider enemy on the CPU level.", "Phishing Spider"),
   editorCpu: s(editor_cpu, "The CPU level in the game editor, shown as a wireframe with platforms and coloured zones.", "CPU level in the editor"),
   editorWalls: s(editor_walls, "The level’s walls and platforms seen in the game editor.", "Walls and platforms in the editor"),
 };
 
 export const GALLERY: Shot[] = [
-  IMG.mainMenu, IMG.multiplayer, IMG.lobby, IMG.gameOver, IMG.glitch,
+  IMG.mainMenu, IMG.multiplayer, IMG.lobby, IMG.gameOver, IMG.phishingSpider,
 ];

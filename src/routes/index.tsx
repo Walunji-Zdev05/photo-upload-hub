@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
 
 function Section({ id, kicker, title, children, alt }: { id: string; kicker: string; title: string; children: ReactNode; alt?: boolean }) {
   return (
-    <section id={id} tabIndex={-1} className={`scroll-mt-20 px-5 py-12 md:py-16 ${alt ? "bg-muted/40" : ""}`}>
+    <section id={id} tabIndex={-1} className={`reveal-section scroll-mt-20 px-5 py-14 md:py-20 ${alt ? "bg-muted/40" : ""}`}>
       <div className="mx-auto max-w-6xl">
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{kicker}</p>
         <h2 className="mt-2 font-display text-3xl font-bold text-primary md:text-4xl">{title}</h2>
@@ -36,8 +36,8 @@ function Section({ id, kicker, title, children, alt }: { id: string; kicker: str
 
 function Fig({ shot, className = "" }: { shot: Shot; className?: string }) {
   return (
-    <figure className={`frame-corners border border-border bg-card ${className}`}>
-      <img src={shot.src} alt={shot.alt} loading="lazy" className="aspect-video w-full object-cover" />
+    <figure className={`frame-corners group self-start overflow-hidden border border-border bg-card transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-primary motion-reduce:transition-none ${className}`}>
+      <img src={shot.src} alt={shot.alt} loading="lazy" className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" />
       <figcaption className="px-3 py-2 font-mono text-xs text-muted-foreground">{shot.caption}</figcaption>
     </figure>
   );
@@ -45,7 +45,7 @@ function Fig({ shot, className = "" }: { shot: Shot; className?: string }) {
 
 function DownloadCard({ icon, platform, url, version, sha }: { icon: ReactNode; platform: string; url: string; version: string; sha: string }) {
   return (
-    <div className="frame-corners border border-border bg-card p-5">
+    <div className="frame-corners border border-border bg-card p-5 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-primary motion-reduce:transition-none">
       <div className="flex items-center gap-3">
         <span className="text-primary">{icon}</span>
         <h3 className="font-display text-xl font-bold">{platform}</h3>
@@ -75,10 +75,10 @@ const LOOP = [
 ] as const;
 
 const ENEMIES = [
-  ["Phishing Spider", "Hides among scrap and attacks when you get close to collect it.", IMG.wallSide],
-  ["Logic Bomb", "Waits in place and explodes when you come near.", IMG.logicBomb],
+  ["Phishing Spider", "Hides among scrap and attacks when you get close to collect it.", IMG.phishingSpider],
+  ["Logic Bomb", "Waits in place and explodes when you come near.", null],
   ["Worm", "Makes copies of itself, so one worm can become a swarm.", IMG.worms],
-  ["Data Miner", "Runs after you and can steal the scrap you are carrying.", null],
+  ["Data Miner", "Runs after you and can steal the scrap you are carrying.", IMG.dataMiner],
 ] as const;
 
 const TEAM = [
@@ -93,16 +93,17 @@ function Index() {
   return (
     <div className="min-h-screen">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">Skip to content</a>
+      <BinaryRain />
+      <div className="relative z-10">
       <SiteHeader />
 
       <main id="main" tabIndex={-1}>
-        <section id="home" tabIndex={-1} className="relative scroll-mt-20 overflow-hidden px-5 pb-10 pt-8 md:pb-14 md:pt-12">
-          <BinaryRain />
-          <div className="relative mx-auto max-w-6xl">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">Antivirus system active</p>
+        <section id="home" tabIndex={-1} className="relative scroll-mt-20 overflow-hidden px-5 pb-12 pt-10 md:pb-16 md:pt-16">
+          <div className="relative mx-auto grid max-w-6xl lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-12">
+            <div className="hero-enter">
+              <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-accent"><span className="h-2 w-2 animate-pulse rounded-full bg-accent motion-reduce:animate-none" aria-hidden="true" />Antivirus system active</p>
               <h1 className="mt-3 font-display text-5xl font-bold md:text-7xl"><span className="text-primary">0x</span>DEFEND</h1>
-              <p className="mt-2 font-display text-xl text-warning">Protect. Collect. Survive.</p>
+              <p className="mt-2 font-display text-xl text-primary">Protect. Collect. Survive.</p>
               <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
                 Jump into a computer under attack. Collect scrap, blast malware and protect the Core Wall—alone or with friends.
               </p>
@@ -112,8 +113,8 @@ function Index() {
               </div>
               <p className="mt-4 font-mono text-xs text-muted-foreground">3D co-op platformer · Windows & Android · In development</p>
             </div>
-            <figure className="frame-corners mt-7 border border-primary bg-card">
-              <img src={IMG.baseLevel.src} alt={IMG.baseLevel.alt} fetchPriority="high" className="max-h-[48svh] w-full object-contain" />
+            <figure className="frame-corners hero-enter hero-enter-delay group mt-8 overflow-hidden border border-primary bg-card lg:mt-0">
+              <img src={IMG.baseLevel.src} alt={IMG.baseLevel.alt} fetchPriority="high" className="max-h-[58svh] w-full object-contain transition-transform duration-700 group-hover:scale-[1.015] motion-reduce:transition-none" />
             </figure>
           </div>
         </section>
@@ -122,10 +123,10 @@ function Index() {
           <p className="mb-6 text-muted-foreground">Five steps. One Core Wall to keep alive.</p>
           <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {LOOP.map(([n, t, d, Icon]) => (
-              <li key={t} className="border-t border-border pt-4">
-                <div className="mb-4 flex items-center justify-between"><span className="font-mono text-sm text-accent">{n}</span><Icon className="h-6 w-6 text-primary" aria-hidden="true" /></div>
+              <li key={t} className="group border-t border-border pt-4 transition-colors duration-300 hover:border-primary">
+                <div className="mb-4 flex items-center justify-between"><span className="font-mono text-sm text-accent">{n}</span><Icon className="h-6 w-6 text-primary transition-transform duration-300 group-hover:-translate-y-1 motion-reduce:transition-none" aria-hidden="true" /></div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-warning">{t}</h3>
+                  <h3 className="font-display text-lg font-bold text-primary">{t}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{d}</p>
                 </div>
               </li>
@@ -141,7 +142,7 @@ function Index() {
               <ul className="space-y-3 font-mono text-sm">
                 <li><kbd className="border border-primary px-2 text-primary">E</kbd> Pick up scrap. You can carry up to 4.</li>
                 <li><kbd className="border border-primary px-2 text-primary">G</kbd> Deposit your scrap on the ship platform.</li>
-                <li><span className="text-warning">1,500</span> scrap reinforces the Core Wall in the first wave.</li>
+                <li><span className="text-primary">1,500</span> scrap reinforces the Core Wall in the first wave.</li>
               </ul>
               <p>Each wave is harder than the last. Strengthen the Core Wall before the next one arrives.</p>
             </div>
@@ -173,15 +174,15 @@ function Index() {
         <Section id="enemies" kicker="Threats detected" title="Meet the enemies">
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {ENEMIES.map(([name, d, img]) => (
-              <li key={name} className="frame-corners border border-border bg-card">
+              <li key={name} className="frame-corners overflow-hidden border border-border bg-card transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-primary motion-reduce:transition-none">
                 {img ? (
                   <img src={img.src} alt={img.alt} loading="lazy" className="aspect-video w-full object-cover" />
                 ) : (
                   <div className="flex aspect-video items-center justify-center bg-muted font-mono text-sm text-muted-foreground">Image coming soon</div>
                 )}
                 <div className="p-4">
-                  <p className="font-mono text-xs text-destructive">⚠ Hostile</p>
-                  <h3 className="font-display text-lg font-bold text-warning">{name}</h3>
+                  <p className="font-mono text-xs uppercase tracking-[0.18em] text-primary">Hostile process</p>
+                  <h3 className="font-display text-lg font-bold text-primary">{name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{d}</p>
                 </div>
               </li>
@@ -198,7 +199,7 @@ function Index() {
                 <li>Android: multiplayer is not available yet.</li>
                 <li>Online play over the internet is not supported.</li>
               </ul>
-              <p className="pt-3 font-display text-xl text-warning">Gravity has other plans.</p>
+              <p className="pt-3 font-display text-xl text-primary">Gravity has other plans.</p>
               <p>Walk along walls and across circuit boards. In the CPU, down is not always where you expect.</p>
               <Fig shot={IMG.coreWall} />
             </div>
@@ -221,7 +222,7 @@ function Index() {
             <Fig shot={IMG.wallClimb} />
             <Fig shot={IMG.hazardZone} />
           </div>
-          <p className="mt-6 text-muted-foreground">Look in every direction: the CPU stacks circuit boards above and below you. <span className="font-mono text-warning">HAZARD</span> zones mark the floor; exact effects are still to be confirmed.</p>
+          <p className="mt-6 text-muted-foreground">Look in every direction: the CPU stacks circuit boards above and below you. <span className="font-mono text-primary">HAZARD</span> zones mark the floor; exact effects are still to be confirmed.</p>
           <details className="mt-8 border-t border-border pt-4">
           <summary className="w-fit cursor-pointer font-display text-xl font-bold text-primary">Behind the scenes</summary>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -254,7 +255,7 @@ function Index() {
           <p className="mb-6 max-w-2xl text-muted-foreground">Built by a student team at the University of Malawi. 0xDEFEND is an ongoing ICT academic project, with more improvements to come.</p>
           <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {TEAM.map(([n, r, c]) => (
-              <li key={n} className="frame-corners border border-border bg-card p-5">
+              <li key={n} className="frame-corners border border-border bg-card p-5 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-primary motion-reduce:transition-none">
                 <h3 className="font-display text-lg font-bold">{n}</h3>
                 <p className="font-mono text-sm text-accent">{r}</p>
                 <p className="mt-2 text-sm text-muted-foreground">{c}</p>
@@ -296,6 +297,7 @@ function Index() {
           <p>Built in Godot. This site uses no cookies, analytics or sign-in. {CONFIG.licenceUrl && <a href={CONFIG.licenceUrl} className="text-primary underline">Licence</a>}</p>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

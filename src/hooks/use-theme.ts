@@ -3,18 +3,16 @@ import { useCallback, useEffect, useState } from "react";
 /**
  * Colour-mode choice for the site.
  *
- * Default (nothing stored): the site follows the device's light/dark setting,
- * handled in src/styles.css by the prefers-color-scheme block.
- * An explicit choice is remembered in localStorage and written to
- * <html data-theme="light|dark">, which the CSS rules for [data-theme] honour.
+ * Dark is the default. An explicit light or dark choice is remembered in
+ * localStorage and written to <html data-theme="light|dark">.
  */
 
 export const THEME_STORAGE_KEY = "0xdefend-theme";
 export type Theme = "light" | "dark";
 
-/** Effective theme: an explicit choice wins, otherwise follow the device. */
-export function resolveTheme(stored: Theme | null, systemPrefersDark: boolean): Theme {
-  return stored ?? (systemPrefersDark ? "dark" : "light");
+/** Dark unless the visitor explicitly chose light. */
+export function resolveTheme(stored: Theme | null): Theme {
+  return stored ?? "dark";
 }
 
 export function readStoredTheme(): Theme | null {
@@ -35,10 +33,6 @@ export function writeStoredTheme(theme: Theme): void {
   }
 }
 
-export function systemPrefersDark(): boolean {
-  return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
-
 export function applyTheme(theme: Theme): void {
   document.documentElement.dataset["theme"] = theme;
 }
@@ -51,19 +45,11 @@ export function useTheme() {
   const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
-    setTheme(resolveTheme(readStoredTheme(), systemPrefersDark()));
-
-    // While no choice is stored, the device setting keeps driving the site.
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => {
-      if (!readStoredTheme()) setTheme(resolveTheme(null, mq.matches));
-    };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    setTheme(resolveTheme(readStoredTheme()));
   }, []);
 
   const toggle = useCallback(() => {
-    const current = theme ?? resolveTheme(readStoredTheme(), systemPrefersDark());
+    const current = theme ?? resolveTheme(readStoredTheme());
     const next: Theme = current === "dark" ? "light" : "dark";
     writeStoredTheme(next);
     applyTheme(next);

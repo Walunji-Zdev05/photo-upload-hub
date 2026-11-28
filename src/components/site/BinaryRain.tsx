@@ -45,5 +45,5 @@ export function BinaryRain() {
       mq.removeEventListener("change", start);
     };
   }, []);
-  return <canvas ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-40" />;
+  return <canvas ref={ref} data-binary-rain aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-25" />;
 }
